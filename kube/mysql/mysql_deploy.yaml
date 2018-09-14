@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: piktochart-app 
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: piktochart-app
+      tier: database
+  template:
+    metadata:
+      name: mysql
+      labels:
+        app: piktochart-app
+        tier: database
+    spec:
+      volumes:
+      - name: mysql-pv
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "db-user-pass"
+              key: "password"
+        - name: MYSQL_DATABASE
+          value: "piktochart_db"
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - mountPath: "/var/lib/mysql"
+          name: mysql-pv

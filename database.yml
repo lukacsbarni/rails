@@ -1,0 +1,28 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: piktochart_dev
+  username: mysql
+  password: mysecurepass
+  host: mysql
+  port: 3306
+
+test:
+  <<: *default
+  username: mysql
+  password: mysecurepass
+  host: mysql
+  port: 3306
+  database: piktochart_test
+
+production:
+  <<: *default
+  database: <%= ENV.fetch("DATABASE_NAME") %>
+  username: <%= ENV.fetch("DATABASE_USER") %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") %>
+  host: <%= ENV.fetch("DATABASE_URL") %>
+  port: <%= ENV.fetch("DATABASE_PORT") %>

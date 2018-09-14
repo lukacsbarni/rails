@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: rails-deployment
+  labels:
+    app: piktochart-app
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1  
+  selector:
+    matchLabels: 
+      app: piktochart-app
+      tier: app
+  template:
+    metadata:
+      name: rails
+      labels:
+        app: piktochart-app
+        tier: app
+    spec:
+      containers:
+      - name: rails
+        image: blukacs/piktochart_ruby:latest
+        args: ["bin/bundle exec rails s -p 3000 -b 0.0.0.0"]
+        env:
+        - name: RAILS_LOG_TO_STDOUT
+          value: "true"
+        - name: RAILS_SERVE_STATIC_FILES
+          value: "true"
+        - name: DATABASE_NAME
+          value: "piktochart_db"
+        - name: DATABASE_PORT
+          value: "3306"
+        - name: DATABASE_URL
+          value: "mysql"
+        - name: DATABASE_USER
+          value: "root"
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "db-user-pass"
+              key: "password"
+        - name: RAILS_ENV
+          value: "production"
+        ports:
+          - containerPort: 3000
