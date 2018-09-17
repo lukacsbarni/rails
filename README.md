@@ -1,7 +1,7 @@
 # Ruby on Rails application on Kubernetes
 
-Things you may want to cover:
+Build steps:
 
 * Create images with docker-compose
 
-* Deploy application 
+* Deploy application with kubectl
