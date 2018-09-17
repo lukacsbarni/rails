@@ -7,8 +7,6 @@ services:
      environment:
        MYSQL_ROOT_PASSWORD: piktochart_pass
        MYSQL_DATABASE: piktochart_db
-       #MYSQL_USER: piktochart_user
-       #MYSQL_PASSWORD: piktochart_pass
      ports:
        - 3307:3306
   ruby:
@@ -17,7 +15,7 @@ services:
      build:
       context: ./
       dockerfile: Dockerfile
-     command: "bin/bundle exec rails s -p 3000 -b 0.0.0.0"
+     command: "rails s -p 3000 -b 0.0.0.0"
      environment:
       DATABASE_URL: mysql
       DATABASE_PORT: 3306

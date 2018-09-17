@@ -2,13 +2,10 @@ FROM ruby:2.3.1
 MAINTAINER Mister DevOps
 
 ENV HOME /app
-# Configure production environment variables
-ENV RAILS_ENV=production \
-    RACK_ENV=production
+# Configure production environment variable
+ENV RAILS_ENV=production
 
 # There is defined the HOME environment variable, we can use in the below commands
-# Create $HOME folder
-RUN mkdir $HOME
 ADD . $HOME
 WORKDIR $HOME
 

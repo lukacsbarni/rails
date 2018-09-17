@@ -11,4 +11,3 @@ while ! nc -z mysql 3306; do sleep 0.1; done
 echo "Mysql is up and running"
 
 exec bundle exec "$@"
-#exec "$@"
