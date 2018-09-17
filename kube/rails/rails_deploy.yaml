@@ -6,13 +6,13 @@ metadata:
   labels:
     app: piktochart-app
 spec:
-  replicas: 1
+  replicas: 2 # number of seconds after pod is up that it's considered ready
   minReadySeconds: 5
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1  
+      maxSurge: 1 #the maximum number of pods that can be created over the desired number of pods
+      maxUnavailable: 1  #the maximum number of pods that can be unavailable during the update process
   selector:
     matchLabels: 
       app: piktochart-app
@@ -27,7 +27,7 @@ spec:
       containers:
       - name: rails
         image: blukacs/piktochart_ruby:latest
-        args: ["bin/bundle exec rails s -p 3000 -b 0.0.0.0"]
+        args: ["rails s -p 3000 -b 0.0.0.0"]
         env:
         - name: RAILS_LOG_TO_STDOUT
           value: "true"
